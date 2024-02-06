@@ -1,0 +1,45 @@
+Implementing Dijkstra Algorithm
+
+//User function Template for Java
+
+
+ class Pair{
+    int distance;
+    int node;
+    Pair(int distance,int node){
+        this.distance=distance;
+        this.node=node;
+    }
+}
+
+
+class Solution
+{
+    //Function to find the shortest distance of all the vertices
+    //from the source vertex S.
+    static int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int S)
+    {
+        // Write your code here
+        PriorityQueue<Pair>pq=new PriorityQueue<Pair>((x,y)->x.distance-y.distance);
+        int dist[]=new int[V];
+        for(int i=0;i<V;i++){
+            dist[i]=(int)1e9;
+        }
+        dist[S]=0;
+        pq.add(new Pair(0,S));
+        while(!pq.isEmpty()){
+            int d=pq.peek().distance;
+            int n=pq.peek().node;
+            pq.remove();
+            for(int i=0;i<adj.get(n).size();i++){
+                int weight=adj.get(n).get(i).get(1);
+                int adjnode=adj.get(n).get(i).get(0);
+                if(weight+d<dist[adjnode]){
+                    dist[adjnode]=weight+d;
+                    pq.add(new Pair(dist[adjnode],adjnode));
+                }
+            }
+        }
+        return dist;
+    }
+}
